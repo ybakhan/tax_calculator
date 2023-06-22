@@ -16,8 +16,6 @@ services:
       context: .
       dockerfile: Dockerfile
       target: service
-    environment:
-      - INTERVIEW_SERVER=http://interview-test-server:5000
     depends_on:
       - interview-test-server
 
