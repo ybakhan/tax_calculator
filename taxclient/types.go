@@ -10,9 +10,9 @@ import (
 type GetTaxBracketsResponse int
 
 const (
-    Found GetTaxBracketsResponse = -(iota)
-    NotFound
-    Failed
+	Found GetTaxBracketsResponse = -(iota)
+	NotFound
+	Failed
 )
 
 type TaxClient interface {
@@ -20,20 +20,20 @@ type TaxClient interface {
 }
 
 type retryableHTTPClient interface {
-    Do(req *retryablehttp.Request) (*http.Response, error)
+	Do(req *retryablehttp.Request) (*http.Response, error)
 }
 
 type taxClient struct {
 	taxBracketsURL string
-	client retryableHTTPClient
+	client         retryableHTTPClient
 }
 
 type TaxBracket struct {
-	Min  uint    `json:"min"`
-	Max  uint    `json:"max"`
+	Min  float32 `json:"min"`
+	Max  float32 `json:"max"`
 	Rate float32 `json:"rate"`
 }
 
-type taxBrackets struct {
+type TaxBrackets struct {
 	Data []*TaxBracket `json:"tax_brackets"`
 }

@@ -31,7 +31,7 @@ func (tc *taxClient) GetBrackets(ctx context.Context, year string) ([]*TaxBracke
 	if err != nil {
 		return nil, Failed, err
 	}
-	
+
 	req, err := retryablehttp.NewRequestWithContext(ctx, http.MethodGet, taxBracketsURL, nil)
 	if err != nil {
 		return nil, Failed, err
@@ -56,7 +56,7 @@ func (tc *taxClient) GetBrackets(ctx context.Context, year string) ([]*TaxBracke
 		return nil, Failed, err
 	}
 
-	var taxbrackets taxBrackets
+	var taxbrackets TaxBrackets
 	err = json.Unmarshal(respBytes, &taxbrackets)
 	if err != nil {
 		return nil, Failed, err

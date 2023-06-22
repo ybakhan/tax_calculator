@@ -3,13 +3,8 @@ FROM golang:latest as builder
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
+COPY . .
 RUN go mod download
-
-COPY cmd/ cmd/
-COPY taxclient/ taxclient/
-COPY integration/ integration/
-
 RUN go build -o /tax_calculator ./cmd
 
 # Build the service image

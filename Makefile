@@ -1,5 +1,5 @@
 build:
-	@go build ./...
+	@go build -o bin/tax_calculator  ./cmd 
 
 run:
 	@docker-compose up --build tax-calculator
