@@ -1,15 +1,25 @@
 version: "3"
 
 services:
-  # tax-calculator:
-  #   image: form3tech/interview-accountapi:v1.0.0-46-gb3b6c766
-  #   restart: on-failure
-  #   depends_on:
-  #     - interview-test-server
-  #   environment:
-  #     - VAULT_ADDR=http://vault:8200
-  #   ports:
-  #     - 8080:8080
+  integration-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: integration-test
+    environment:
+      - INTERVIEW_SERVER=http://interview-test-server:5000
+    depends_on:
+      - interview-test-server
+
+  tax-calculator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: service
+    environment:
+      - INTERVIEW_SERVER=http://interview-test-server:5000
+    depends_on:
+      - interview-test-server
 
   interview-test-server:
     image: ptsdocker16/interview-test-server

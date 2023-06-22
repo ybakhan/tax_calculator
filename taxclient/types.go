@@ -31,7 +31,7 @@ type taxClient struct {
 type TaxBracket struct {
 	Min  uint    `json:"min"`
 	Max  uint    `json:"max"`
-	Rate float64 `json:"rate"`
+	Rate float32 `json:"rate"`
 }
 
 type taxBrackets struct {

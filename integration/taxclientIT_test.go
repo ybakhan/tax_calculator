@@ -1,16 +1,16 @@
 //go:build integration
-// +build integration
-
-package taxclient
+package integration
 
 import (
 	"context"
 	"net/http"
+	"os"
 	"testing"
 	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/stretchr/testify/assert"
+	"github.com/ybakhan/tax_calculator/taxclient"
 )
 
 func TestGetBracketsIT(t *testing.T) {
@@ -26,20 +26,20 @@ func TestGetBracketsIT(t *testing.T) {
     	return false, nil
 	}
 
-	taxClient := InitializeTaxClient("http://localhost:5000", httpClient)
+	taxClient := taxclient.InitializeTaxClient(os.Getenv("INTERVIEW_SERVER"), httpClient)
 
 	tests := map[string]struct {
 		Year string
-		Response GetTaxBracketsResponse
+		Response taxclient.GetTaxBracketsResponse
 		TaxBrackets int
 	}{
 		"tax bracket not found": {
 			Year: "2018",
-			Response: NotFound,
+			Response: taxclient.NotFound,
 		},
 		"get brackets": {
 			Year: "2022",
-		 	Response: Found,
+		 	Response: taxclient.Found,
 		 	TaxBrackets: 5,
 		},
 	}
