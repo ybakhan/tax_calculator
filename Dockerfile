@@ -1,17 +1,31 @@
-# Start from the latest golang base image
-FROM golang:latest as builder
+FROM golang:1.20-alpine AS builder
 
 WORKDIR /app
 
-COPY . .
-RUN go mod download
-RUN go build -o /tax_calculator ./cmd
+# Copy the Go module files to the working directory
+COPY go.mod go.sum ./
 
-# Build the service image
+# Download and cache Go modules
+RUN go mod download
+
+# Copy the rest of the application source code to the working directory
+COPY . .
+
+# Build the Go application
+RUN go build -o tax_calculator ./main
+
+# Create the service image
 FROM alpine:latest as service
-COPY --from=builder /tax_calculator /tax_calculator
-EXPOSE 8080
-CMD ["/tax_calculator"]
+
+WORKDIR /app
+
+# Copy the built Go binary from the previous stage
+COPY --from=builder /app/tax_calculator .
+COPY --from=builder /app/config.yml .
+
+# Expose the port the server will be listening on
+EXPOSE 8081
+CMD ["./tax_calculator"]
 
 # Build the integration test image
 FROM builder as integration-test

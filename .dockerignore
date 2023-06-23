@@ -5,4 +5,4 @@ Dockerfile
 .dockerignore
 Makefile
 Readme.md
-*.yml
+docker-compose.yml

@@ -18,6 +18,9 @@ services:
       target: service
     depends_on:
       - interview-test-server
+    ports:
+      - 8081:8081
+    restart: always
 
   interview-test-server:
     image: ptsdocker16/interview-test-server
